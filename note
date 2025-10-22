@@ -1,0 +1,56 @@
+sudo nano /etc/systemd/system/wheel_of_price.service
+
+[Unit]
+Description=Gunicorn instance for Wheel of Price
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/wheel_of_price
+ExecStart=/home/ubuntu/wheel_of_price/venv/bin/gunicorn --workers 3 --bind unix:/tmp/wheel_of_price.sock app:app
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start wheel_of_price
+sudo systemctl enable wheel_of_price
+
+sudo nano /etc/nginx/sites-available/wheel_of_price
+
+server {
+    listen 80;
+    server_name your.domain.com; # IMPORTANT: Replace with your actual domain
+
+    # Redirect all HTTP traffic to HTTPS (Port 443)
+    return 301 https://$host$request_uri; 
+}
+
+server {
+    listen 443 ssl;
+    server_name your.domain.com; # IMPORTANT: Replace with your actual domain
+
+    # --- FIX: ADD THESE TWO LINES ---
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+    # ---------------------------------
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/tmp/wheel_of_price.sock; # Proxy to Gunicorn
+    }
+}
+
+# Generate a self-signed key and certificate (valid for one year)
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+
+# Link config to sites-enabled
+sudo ln -s /etc/nginx/sites-available/wheel_of_price /etc/nginx/sites-enabled/
+
+# Remove default Nginx config
+sudo rm /etc/nginx/sites-enabled/default
+
+# Test configuration syntax and restart Nginx
+sudo nginx -t
+sudo systemctl restart nginx
