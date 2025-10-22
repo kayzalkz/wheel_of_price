@@ -1,0 +1,3 @@
+Flask
+sqlite3 # Optional, but good practice
+gunicorn # Essential for production WSGI server

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Spin the Wheel{% endblock %}
+{% block body_class %}wheel-body{% endblock %}
+
+{% block content %}
+<div class="wheel-page-container">
+    <div class="user-info">
+        <p>Welcome, {{ user.name }}!</p>
+        <p>It's time to test your luck!</p>
+    </div>
+
+    <div class="wheel-container">
+        <canvas id="wheelCanvas" width="500" height="500"></canvas>
+        <div class="indicator"></div>
+        <button id="spinButton" class="spin-btn">Spin Now</button>
+    </div>
+
+    <div id="resultBox" class="result-box hidden">
+        <h2 id="resultText"></h2>
+        <a href="/" class="back-link">Go back to start</a>
+    </div>
+
+    <div class="winners-sidebar">
+        <h3>Recent Winners</h3>
+        <ul class="winner-list-animated">
+            {% for winner in winners %}
+            <li style="animation-delay: {{ loop.index * 0.1 }}s;">{{ winner.name }} won ${{ winner.prize | int | format_currency }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.js"></script>
+<script>
+    const prizesData = JSON.parse('{{ prizes | tojson | safe }}');
+    const user = JSON.parse('{{ user | tojson | safe }}');
+</script>
+<script src="{{ url_for('static', filename='js/wheel.js') }}"></script>
+{% endblock %}

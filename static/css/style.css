@@ -1,0 +1,559 @@
+/* Base Styling */
+:root {
+    --bg-dark: #14191e;
+    --bg-light: #323c46;
+    --text-light: #E0E0E0;
+    --text-muted: #A0A0A0;
+    --accent-blue: #00BFFF; /* Neon Blue */
+    --btn-dark: #333940;
+    --btn-border: #5C6773;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'monospace', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--text-light);
+    background: radial-gradient(circle at 10% 20%, var(--bg-dark) 0%, var(--bg-light) 90%);
+}
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--text-light);
+}
+
+/* --- Buttons and Forms --- */
+.btn {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--btn-dark);
+    color: var(--text-light);
+    border: 2px solid var(--btn-border);
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #4A515B;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.7);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--btn-border);
+}
+
+.btn-secondary:hover {
+    color: var(--text-light);
+    border-color: var(--text-light);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-warning {
+    background-color: #904040;
+    color: var(--text-light);
+    border: 1px solid #C06060;
+}
+
+.btn-delete {
+    color: #FF6666;
+    font-size: 0.9em;
+}
+
+input[type="text"], input[type="password"], input[type="number"] {
+    padding: 10px;
+    border: 1px solid var(--btn-border);
+    background-color: var(--btn-dark);
+    color: var(--text-light);
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+/* --- INDEX Page Styling --- */
+.index-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10vh;
+}
+
+.main-title {
+    font-size: 4em;
+    font-weight: bold;
+    background: linear-gradient(to right, var(--text-light) 0%, var(--text-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+}
+
+.sub-title {
+    font-size: 1.2em;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.stats-boxes {
+    display: flex;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--btn-border);
+    padding: 20px 40px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 200px;
+}
+
+.stat-value {
+    font-size: 2.5em;
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: var(--accent-blue);
+    margin-top: 5px;
+}
+
+/* User Selection Section */
+.user-section, .winners-section {
+    width: 80%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.user-section h2, .winners-section h2 {
+    text-align: center;
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.user-card {
+    padding: 10px 20px;
+    background: var(--btn-dark);
+    border: 1px solid var(--btn-border);
+    border-radius: 5px;
+    color: var(--text-light);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+}
+
+.user-card:hover:not(.used) {
+    background-color: #4A515B;
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+}
+
+.user-card.used {
+    opacity: 0.5;
+    pointer-events: none;
+    border-color: #904040;
+    color: var(--text-muted);
+}
+
+.user-card.used span {
+    color: #FF6666;
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+/* Winner List Animation Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.winner-list-animated {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.winners-sidebar .winner-list-animated {
+    text-align: left;
+}
+
+.winner-list-animated li {
+    padding: 5px 0;
+    color: var(--text-muted);
+    font-size: 0.9em;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.winners-section li {
+    font-size: 1em;
+    color: var(--text-light);
+}
+
+.winners-sidebar li {
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
+}
+
+/* --- WHEEL Page Styling --- */
+.wheel-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    min-height: 100vh;
+    position: relative; /* Needed for sidebar positioning */
+}
+
+.wheel-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#wheelCanvas {
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    margin-bottom: 30px;
+}
+
+.indicator {
+    position: absolute;
+    top: 35px; /* Adjust based on canvas size/margin */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid var(--accent-blue);
+    z-index: 10;
+    filter: drop-shadow(0 0 5px var(--accent-blue));
+}
+
+.spin-btn {
+    padding: 12px 30px;
+    font-size: 1.2em;
+}
+
+.user-info {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.winners-sidebar {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    width: 250px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.winners-sidebar h3 {
+    margin-top: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    color: var(--accent-blue);
+    font-size: 1.2em;
+}
+
+/* Result Box Styling */
+.result-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(30, 35, 40, 0.98);
+    padding: 40px 60px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 100;
+    box-shadow: 0 0 40px rgba(0, 191, 255, 0.8);
+    border: 1px solid var(--accent-blue);
+    min-width: 400px;
+}
+
+#resultText {
+    font-size: 2.5em;
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+}
+
+.back-link {
+    background: var(--btn-border);
+    padding: 8px 20px;
+    border-radius: 5px;
+    color: var(--text-light);
+    display: inline-block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- ADMIN Page Styling --- */
+.admin-login-body, .admin-manage-body {
+    padding: 40px;
+}
+
+.admin-form-container, .admin-panel-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-form-container h2, .admin-panel-container h1 {
+    color: var(--accent-blue);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.admin-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.admin-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid var(--btn-border);
+    border-radius: 5px;
+}
+
+.admin-section h2 {
+    color: var(--text-light);
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--btn-border);
+    padding-bottom: 5px;
+}
+
+.inline-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--accent-blue);
+}
+
+.form-group input {
+    width: 100%;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.admin-table th, .admin-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--btn-border);
+}
+
+.admin-table th {
+    background-color: var(--bg-dark);
+    color: var(--accent-blue);
+}
+
+.admin-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.error-message {
+    color: #FF6666;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* ====================================
+   RESPONSIVENESS (Mobile/Small Screen)
+   ==================================== */
+@media (max-width: 600px) {
+    body {
+        padding: 0 10px;
+    }
+    
+    /* Index Page */
+    .main-title {
+        font-size: 2.5em;
+    }
+    .sub-title {
+        font-size: 1em;
+        padding: 0 10px;
+    }
+
+    .stats-boxes {
+        flex-direction: column;
+        gap: 15px;
+        margin: 20px 0;
+        width: 100%;
+    }
+    .stat-box {
+        min-width: unset;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .user-section, .winners-section {
+        width: 100%;
+        padding: 15px;
+        margin: 20px auto;
+    }
+    
+    .user-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .user-card {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Wheel Page */
+    .wheel-page-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+        min-height: auto;
+    }
+
+    /* Shrink the wheel on small screens */
+    #wheelCanvas {
+        width: 300px;
+        height: 300px;
+    }
+    
+    /* Re-position user info and winners sidebar as blocks below the wheel */
+    .user-info {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .winners-sidebar {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    /* Center the modal result box better */
+    .result-box {
+        width: 90%;
+        min-width: unset;
+        padding: 20px;
+    }
+    #resultText {
+        font-size: 1.5em;
+    }
+    
+    /* Admin Pages */
+    .admin-login-body, .admin-manage-body {
+        padding: 20px 10px;
+    }
+    .admin-panel-container {
+        padding: 15px;
+    }
+    .admin-table {
+        font-size: 0.8em;
+        display: block;
+        overflow-x: auto; /* Allow horizontal scrolling for large tables */
+        white-space: nowrap;
+    }
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .inline-form {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .inline-form input {
+        margin-right: 0;
+    }
+}

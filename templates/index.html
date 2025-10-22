@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Wheel of Price - Spin to Win!{% endblock %}
+{% block body_class %}index-body{% endblock %}
+
+{% block content %}
+<div class="main-title">
+    Yadanarbon Bank
+</div>
+<div class="sub-title">
+    "Ta Hsaung Tine" Spin the wheel and win amazing prizes! Choose your name and test your luck.
+</div>
+
+<div class="actions">
+    <a href="#user-selection" class="btn btn-primary">Play Now</a>
+</div>
+
+<div class="stats-boxes">
+    <div class="stat-box">
+        <div class="stat-value">{{ prize_amounts }}</div>
+        <div class="stat-label">Prize Amounts</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">{{ total_prizes }}</div>
+        <div class="stat-label">Total Prizes</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">{{ total_prize_pool | int | format_currency }}</div>
+        <div class="stat-label">Total Prize Pool</div>
+    </div>
+</div>
+
+<section id="user-selection" class="user-section">
+    <h2>Choose Your Name</h2>
+    <div class="user-list">
+        {% for user in users %}
+            <a href="{{ url_for('select_user', user_id=user.id) }}" class="user-card {% if user.used %}used{% endif %}">
+                {{ user.name }}
+                {% if user.used %}<span>(Used)</span>{% endif %}
+            </a>
+        {% else %}
+            <p>No players added yet. Ask an admin to add your name.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="winners-section">
+    <h2>Recent Winners</h2>
+    <ul class="winner-list-animated">
+        {% for winner in winners %}
+        <li style="animation-delay: {{ loop.index * 0.1 }}s;">{{ winner.name }} won **${{ winner.prize | int | format_currency }}**!</li>
+        {% else %}
+        <li>No winners yet. Be the first!</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
