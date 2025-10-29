@@ -1,3 +1,11 @@
+sudo mkdir -p /tmp
+sudo chown ubuntu:www-data /tmp
+sudo chmod 775 /tmp
+sudo systemctl restart wheel_of_price
+sudo systemctl restart nginx
+
+
+
 sudo nano /etc/systemd/system/wheel_of_price.service
 
 [Unit]
